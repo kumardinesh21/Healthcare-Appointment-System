@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.web.WebProperties;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "User")
+@Table(name ="User")
 public class User {
 
     @Id
