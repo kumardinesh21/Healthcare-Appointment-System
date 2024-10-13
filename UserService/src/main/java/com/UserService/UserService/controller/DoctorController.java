@@ -16,14 +16,11 @@ import java.util.Optional;
 public class DoctorController {
     @Autowired
     private DoctorService service;
-
-    @PostMapping
     public ResponseEntity<?> create(@RequestBody Doctor doctor) {
-        if (doctor != null) {
-            Doctor doctor1 = service.create(doctor);
-            return new ResponseEntity<>(doctor1, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (doctor != null) {
+        Doctor doctor1 = service.create(doctor);
+        return new ResponseEntity<>(doctor1, HttpStatus.OK);}
+        return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping

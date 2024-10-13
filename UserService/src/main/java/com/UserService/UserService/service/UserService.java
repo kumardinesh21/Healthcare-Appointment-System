@@ -3,6 +3,8 @@ package com.UserService.UserService.service;
 import com.UserService.UserService.model.User;
 import com.UserService.UserService.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +14,10 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepo repo;
-
+   @Autowired
+    private final PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
     public User create(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repo.save(user);
     }
 
@@ -25,10 +29,14 @@ public class UserService {
         return repo.findById(id);
     }
 
-    public void delById(Long id) {
+    public void delByName(User user) {
+         repo.delete(user);
 
-        repo.deleteById(id);
     }
 
+
+    public User findByName(String name){
+        return  repo.findByName(name);
+    }
 
 }
