@@ -1,5 +1,6 @@
 package com.UserService.UserService.controller;
 
+import com.UserService.UserService.model.Doctor;
 import com.UserService.UserService.model.User;
 import com.UserService.UserService.service.MyUserDetailService;
 import com.UserService.UserService.service.UserService;
@@ -31,7 +32,16 @@ public class PublicController {
 
     @PostMapping("/reg")
     public ResponseEntity<?> register(@RequestBody User user) {
-        if (user != null) {
+        if (user != null ) {
+            if ("DOCTOR".equals(user.getRole())) {
+                Doctor doctor = new Doctor();
+                doctor.setSpecialization(user.getDoctor().getSpecialization());
+                doctor.setAvailability(user.getDoctor().getAvailability());
+                doctor.setUser(user);
+                user.setDoctor(doctor);
+            }else {
+                user.setDoctor(null);
+            }
             User user1 = service.create(user);
             return new ResponseEntity<>(user1, HttpStatus.CREATED); // Use CREATED status for successful registration
         }

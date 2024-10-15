@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -26,12 +23,6 @@ public class UserController {
 
 
 
-//    @GetMapping
-//    public ResponseEntity<?> getAll() {
-//        List<User> all = service.getAll();
-//        return new ResponseEntity<>(all, HttpStatus.FOUND);
-//
-//    }
 
 //    @GetMapping("{id}")
 //    public ResponseEntity<?> getById(@PathVariable Long id) {

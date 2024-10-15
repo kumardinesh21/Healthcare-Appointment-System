@@ -19,24 +19,27 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
-@Autowired
-private JwtFilter filter;
+    @Autowired
+    private JwtFilter filter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
-        security.authorizeHttpRequests(request -> request.requestMatchers("/user").authenticated().anyRequest().permitAll());
-//                .formLogin(AbstractHttpConfigurer::disable)
-//                .httpBasic(Customizer.)
-                security.csrf(AbstractHttpConfigurer::disable);
-                security.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        security.authorizeHttpRequests(
+                request -> request.requestMatchers("/user")
+                        .authenticated().requestMatchers("/admin").hasRole("ADMIN")
+                        .anyRequest().permitAll());
+        security.csrf(AbstractHttpConfigurer::disable);
+        security.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         security.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-                 // Stateless for APIs
+        // Stateless for APIs
         return security.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();

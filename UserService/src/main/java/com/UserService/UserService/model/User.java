@@ -1,5 +1,8 @@
 package com.UserService.UserService.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +33,10 @@ public class User {
     @Column(nullable = false)
     private String role;
     // Getters and Setters
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Doctor doctor;
 }
 
 
