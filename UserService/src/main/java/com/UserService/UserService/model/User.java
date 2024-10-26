@@ -35,7 +35,6 @@ public class User {
     // Getters and Setters
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private Doctor doctor;
 }
 

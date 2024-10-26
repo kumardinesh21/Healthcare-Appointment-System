@@ -25,9 +25,9 @@ public class SpringSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
         security.authorizeHttpRequests(
-                request -> request.requestMatchers("/user")
-                        .authenticated().requestMatchers("/admin").hasRole("ADMIN")
-                        .anyRequest().permitAll());
+                request -> request.requestMatchers("/user/**", "/user/id/**")
+                        .authenticated()
+                        .requestMatchers("/admin").hasRole("ADMIN").anyRequest().permitAll());
         security.csrf(AbstractHttpConfigurer::disable);
         security.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         security.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);

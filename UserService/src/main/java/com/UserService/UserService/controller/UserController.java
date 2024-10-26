@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,18 +22,16 @@ public class UserController {
     @Autowired
     private MyUserAuthentication authentication;
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<User> getById(@PathVariable Long id) {
+        Optional<User> byId = service.getById(id);
+        if (byId.isPresent()){
+            User user = byId.get();
+            return new ResponseEntity<>(user,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
-
-
-//    @GetMapping("{id}")
-//    public ResponseEntity<?> getById(@PathVariable Long id) {
-//        Optional<User> byId = service.getById(id);
-//        return byId.isPresent() ?
-//                new ResponseEntity<>(byId, HttpStatus.FOUND) :
-//                new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//
-//
-//    }
 
     @DeleteMapping()
     public ResponseEntity<?> delByName() {
@@ -51,7 +50,7 @@ public class UserController {
         byName.setRole(user.getRole());
         byName.setPassword(user.getPassword());
         byName.setEmail(user.getEmail());
-         service.create(byName);
+        service.create(byName);
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
@@ -60,7 +59,8 @@ public class UserController {
     public ResponseEntity<?> getByName() {
         String name = authentication.getUser();
         User byName = service.findByName(name);
-        return  new ResponseEntity<>(byName, HttpStatus.OK) ;
+        return new ResponseEntity<>(byName, HttpStatus.OK);
     }
+
 
 }
