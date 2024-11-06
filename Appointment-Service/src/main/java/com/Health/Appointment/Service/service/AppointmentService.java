@@ -1,8 +1,11 @@
 package com.Health.Appointment.Service.service;
 
 
-import com.Health.Appointment.Service.client.Client;
+
+import com.Health.Appointment.Service.client.MedicalRecordServiceClient;
+import com.Health.Appointment.Service.client.UserServiceClient;
 import com.Health.Appointment.Service.model.Appointment;
+import com.Health.Appointment.Service.model.MedicalRecords;
 import com.Health.Appointment.Service.model.User;
 import com.Health.Appointment.Service.repo.AppointmentRepo;
 
@@ -18,7 +21,9 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepo repo;
     @Autowired
-    private Client client;
+    private UserServiceClient client;
+    @Autowired
+    private MedicalRecordServiceClient  recordServiceClient;
 
     public Appointment create(Appointment appointment){
         appointment.setDate(new Date());
@@ -49,4 +54,11 @@ public class AppointmentService {
     }
 
 
+    public MedicalRecords findRecords(Long patientId) {
+        Appointment byPatientId = repo.findByPatientId(patientId);
+        if (byPatientId != null) {
+            return  recordServiceClient.getByPatient(patientId);
+        }
+        return null;
+    }
 }

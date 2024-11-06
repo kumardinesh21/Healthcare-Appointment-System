@@ -1,8 +1,9 @@
 package com.Health.Appointment.Service.controller;
 
 
-import com.Health.Appointment.Service.client.Client;
+
 import com.Health.Appointment.Service.model.Appointment;
+import com.Health.Appointment.Service.model.MedicalRecords;
 import com.Health.Appointment.Service.model.User;
 import com.Health.Appointment.Service.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,11 @@ public class AppointmentController {
     }
 
 
-
+    @GetMapping("/rec/{patient_id}")
+    public ResponseEntity<?> findRecords(@PathVariable Long patient_id) {
+        MedicalRecords byPatientId = service.findRecords(patient_id);
+        return byPatientId != null ? new ResponseEntity<>(byPatientId, HttpStatus.FOUND):new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
     @PutMapping("{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Appointment appointment) {
