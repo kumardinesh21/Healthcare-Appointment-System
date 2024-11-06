@@ -1,7 +1,5 @@
 package com.Health.Appointment.Service.controller;
 
-
-
 import com.Health.Appointment.Service.model.Appointment;
 import com.Health.Appointment.Service.model.MedicalRecords;
 import com.Health.Appointment.Service.model.User;
@@ -18,7 +16,6 @@ import java.util.Optional;
 public class AppointmentController {
     @Autowired
     private AppointmentService service;
-
 
     @PostMapping
     public ResponseEntity<?> saver(@RequestBody Appointment appointment) {
@@ -40,23 +37,22 @@ public class AppointmentController {
 
     @GetMapping("/pat/{patient_id}")
     public ResponseEntity<?> findByPatientId(@PathVariable Long patient_id, @RequestHeader("Authorization") String jwtToken) {
-        User byPatientId = service.findByPatientId(patient_id,jwtToken);
-        return byPatientId != null ? new ResponseEntity<>(byPatientId, HttpStatus.FOUND):new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        User byPatientId = service.findByPatientId(patient_id, jwtToken);
+        return byPatientId != null ? new ResponseEntity<>(byPatientId, HttpStatus.FOUND) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/doc/{doctor_id}")
     public ResponseEntity<?> findByDoctorId(@PathVariable Long doctor_id, @RequestHeader("Authorization") String jwtToken) {
-        User  byDoctorIdId = service.findByDoctorId(doctor_id, jwtToken);
+        User byDoctorIdId = service.findByDoctorId(doctor_id, jwtToken);
         return byDoctorIdId != null ?
                 new ResponseEntity<>(byDoctorIdId, HttpStatus.FOUND)
                 : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-
     @GetMapping("/rec/{patient_id}")
     public ResponseEntity<?> findRecords(@PathVariable Long patient_id) {
         MedicalRecords byPatientId = service.findRecords(patient_id);
-        return byPatientId != null ? new ResponseEntity<>(byPatientId, HttpStatus.FOUND):new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return byPatientId != null ? new ResponseEntity<>(byPatientId, HttpStatus.FOUND) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("{id}")
